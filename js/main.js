@@ -100,4 +100,48 @@ window.onload = function () {
         });
       // console.log("END_CATEGORIES");
     });
+
+  // button users
+  document
+    .getElementById("button-users")
+    .addEventListener("click", function () {
+      // console.log("BEGIN_USERS");
+      root.innerHTML = "";
+      preloader.style = "display: block";
+
+      fetch(api + "/users")
+        .then((response) => {
+          // console.log();
+          // console.log("Response = " + response);
+          return response.json();
+        })
+
+        .then((data) => {
+          // console.log("Data = " + data);
+          let users = data["hydra:member"];
+          // console.log("Posts = " + users);
+          return users.map(function (users) {
+            // console.log("Post = ", users);
+
+            let h2 = createNode("h2");
+            append(root, h2);
+            h2.innerHTML = `${users.email}`;
+
+            let div = createNode("div");
+            append(root, div);
+            div.innerHTML = `${"id = " + users.id}`;
+
+            div = createNode("div");
+            append(root, div);
+            div.innerHTML = `${"roles = " + users.roles}`;
+
+            div = createNode("div");
+            append(root, div);
+            div.innerHTML = `${"is_verified = " + users.is_verified}`;
+
+            preloader.style = "display: none";
+          });
+        });
+      // console.log("END_CATEGORIES");
+    });
 };
